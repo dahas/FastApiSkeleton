@@ -1,7 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, Path
+from fastapi import APIRouter, Depends, HTTPException, Path, Request
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
+
+from app.utils import get_lang
 
 from .. import schemas, models, database
 
@@ -9,7 +11,10 @@ router = APIRouter(prefix="/example", tags=["example"])
 
 # CREATE
 @router.post("/", response_model=schemas.Example)
-async def create(article: schemas.ExampleCreate, db: AsyncSession = Depends(database.get_db)):
+async def create(
+    article: schemas.ExampleCreate, 
+    db: AsyncSession = Depends(database.get_db)
+):
     user_id = 123 # ToDo: Get real user ID.
 
     db_example = models.Example(**article.model_dump())
