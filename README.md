@@ -17,7 +17,7 @@ $ pip install -r requirements.txt
         ```
         DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/db_name
         ```
-    - Replace user, pass, db_name accordingly:
+    - Replace user, pass, db_name accordingly.
 
 - Create tables:
     ```
