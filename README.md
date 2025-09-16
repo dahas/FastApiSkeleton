@@ -70,7 +70,7 @@ curl -X DELETE http://127.0.0.1:8000/example/
 ```
 
 # EXTEND AND/OR MODIFY
-Whenever you add a new model, you must create a table for it in the database:
+Whenever you add a new model, you must create a table for it in the database. Run:
 ```
 $ python migrate.py
 ```
@@ -80,6 +80,10 @@ When you have installed additional libraries, run:
 ```
 $ pip freeze > requirements.txt
 ```
+
+# AUTHENTICATION
+How you implement user authentication is up to you. A common approach is using JWT.  
+See `get_current_user` in `app/utils` for an example of handling authentication.
 
 # LANGUAGE SUPPORT
 You can enable multilingual support in the API. To do this, **copy** one of the language files from the locales folder, **rename** the class to match the desired ISO country code, and **translate** the properties. 
