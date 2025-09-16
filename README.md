@@ -1,4 +1,7 @@
-# INSTALL
+# FastAPI Skeleton
+A basic structure to create a RESTful-API with Python and Postgres.
+
+## INSTALL
 
 ```
 $ python -m venv venv
@@ -8,7 +11,7 @@ $ pip install --upgrade pip
 $ pip install -r requirements.txt
 ```
 
-# SETUP
+## SETUP
 
 - Create an empty Postgres Database.
 
@@ -25,51 +28,51 @@ $ pip install -r requirements.txt
     $ python migrate.py --username YOUR_NAME --password YOUR_PASSWORD
     ```
 
-# RUN
+## RUN
 
 ```
 $ uvicorn app.main:app --reload
 ```
 
-# USAGE
+## USAGE
 
-### Create
+#### Create
 Insert a new record:
 ```py
 curl -X POST http://127.0.0.1:8000/example/ -H "Content-Type: application/json" -d "{\"title\": \"My first example\", \"content\": \"This is the content of my first example\"}"
 ```
 
-### Read All
+#### Read All
 List all records:
 ```py
 curl -X GET http://127.0.0.1:8000/example/
 ```
 
-### Read
+#### Read
 Get a single record:
 ```py
 curl -X GET http://127.0.0.1:8000/example/1
 ```
 
-### Update
+#### Update
 Change an existing record:
 ```py
 curl -X PUT http://127.0.0.1:8000/example/1 -H "Content-Type: application/json" -d "{\"title\": \"My first updated example\", \"content\": \"This is the updated content of my first example\"}"
 ```
 
-### Delete
+#### Delete
 Delete a single record:
 ```py
 curl -X DELETE http://127.0.0.1:8000/example/1
 ```
 
-### Delete All
+#### Delete All
 Delete all records:
 ```py
 curl -X DELETE http://127.0.0.1:8000/example/
 ```
 
-# EXTEND AND/OR MODIFY
+## EXTEND AND/OR MODIFY
 Whenever you add a new model, you must create a table for it in the database. Run:
 ```
 $ python migrate.py
@@ -81,11 +84,11 @@ When you have installed additional libraries, run:
 $ pip freeze > requirements.txt
 ```
 
-# AUTHENTICATION
+## AUTHENTICATION
 How you implement user authentication is up to you. A common approach is using JWT.  
 See `get_current_user` in `app/utils` for an example of handling authentication.
 
-# LANGUAGE SUPPORT
+## LANGUAGE SUPPORT
 You can enable multilingual support in the API. To do this, **copy** one of the language files from the locales folder, **rename** the class to match the desired ISO country code, and **translate** the properties. 
 
 You can then use the new language class in your routers as follows:
@@ -105,5 +108,5 @@ The language must be sent in the request header:
 curl -X GET http://127.0.0.1:8000/example/ -H "Accept-Language: de"
 ```
 
-# TESTING
+## TESTING
 For testing, an in-memory SQLite DB is created and used. Check out `tests/conftest.py` to make any adjustments for your scenario. Also copy and adapt `test_example.py`.
