@@ -1,8 +1,6 @@
-import logging
-import os
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from app.api.v1.routers import example
+from app.api.v1.routers import example as example_v1
 from app.database import engine, Base
 
 @asynccontextmanager
@@ -15,4 +13,4 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Name of your API", lifespan=lifespan)
 
 # Add your Routers here:
-app.include_router(example.router)
+app.include_router(example_v1.router)
