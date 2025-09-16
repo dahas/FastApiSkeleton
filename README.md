@@ -23,7 +23,7 @@ $ pip install -r requirements.txt
     - Replace user, pass, db_name accordingly.
 
 - Initialize database and create the default user:  
-    Run the following script and set your credentials. Username and password are ONLY required once. Make sure you type them correctly and keep them in mind.
+    Run the following script and set your credentials. Username and password are only required once. Make sure you type them correctly and keep them in mind.
     ```
     $ python migrate.py --username YOUR_NAME --password YOUR_PASSWORD
     ```
