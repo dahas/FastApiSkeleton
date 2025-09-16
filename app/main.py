@@ -2,7 +2,7 @@ import logging
 import os
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from app.routers import example
+from app.api.v1.routers import example
 from app.database import engine, Base
 
 @asynccontextmanager
