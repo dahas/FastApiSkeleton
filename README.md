@@ -19,15 +19,16 @@ $ pip install -r requirements.txt
         ```
     - Replace user, pass, db_name accordingly.
 
-- Create tables:
+- Initialize database and create the default user:
+    Run the following script and set your credentials. Username and password are ONLY required once. Make sure you type them correctly and keep them safe.
     ```
-    $ python migrate.py
+    $ python migrate.py --username YOUR_NAME --password YOUR_PASSWORD
     ```
 
 # RUN
 
 ```
-$ uvicorn main:app --reload
+$ uvicorn app.main:app --reload
 ```
 
 # USAGE
@@ -68,6 +69,18 @@ Delete all records:
 curl -X DELETE http://127.0.0.1:8000/example/
 ```
 
+# EXTEND AND/OR MODIFY
+Whenever you add a new model, you must create a table for it in the database:
+```
+$ python migrate.py
+```
+If a model has been modified, you need to either manually update the corresponding table or drop it so it can be re-created.
+
+When you have installed additional libraries, run:
+```
+$ pip freeze > requirements.txt
+```
+
 # LANGUAGE SUPPORT
 You can enable multilingual support in the API. To do this, **copy** one of the language files from the locales folder, **rename** the class to match the desired ISO country code, and **translate** the properties. 
 
@@ -87,3 +100,6 @@ The language must be sent in the request header:
 ```py
 curl -X GET http://127.0.0.1:8000/example/ -H "Accept-Language: de"
 ```
+
+# TESTING
+For testing, an in-memory SQLite DB is created and used. Check out `tests/conftest.py` to make any adjustments for your scenario. Also copy and adapt `test_example.py`.

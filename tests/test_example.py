@@ -3,7 +3,7 @@
 import pytest
 
 @pytest.mark.asyncio
-async def test_crud_example(async_client, prepare_db):
+async def test_crud_example(async_client):
     # --- CREATE ---
     response = await async_client.post(
         "/example/",
@@ -32,7 +32,7 @@ async def test_crud_example(async_client, prepare_db):
     response = await async_client.delete(f"/example/{example_id}")
     assert response.status_code == 200
 
-    # --- READ nach DELETE ---
+    # --- READ after DELETE ---
     response = await async_client.get(f"/example/{example_id}")
     assert response.status_code == 404
 

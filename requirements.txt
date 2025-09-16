@@ -1,9 +1,11 @@
+aiosqlite==0.21.0
 annotated-types==0.7.0
 anyio==4.10.0
+asgi-lifespan==2.1.0
 async-timeout==5.0.1
 asyncpg==0.30.0
 backports.asyncio.runner==1.2.0
-bcrypt==4.3.0
+bcrypt==3.2.2
 certifi==2025.8.3
 cffi==2.0.0
 charset-normalizer==3.4.3
