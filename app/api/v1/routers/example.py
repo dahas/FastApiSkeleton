@@ -1,3 +1,4 @@
+import json
 from fastapi import APIRouter, Depends, HTTPException, Path, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -17,14 +18,14 @@ async def create(
 ):
     user_id = current_user.id
 
-    db_example = models.Example(**article.model_dump())
-    db_example.user_id = user_id
-    db.add(db_example)
+    row = models.Example(**article.model_dump())
+    row.user_id = user_id
+    db.add(row)
 
     await db.commit()
-    await db.refresh(db_example)
+    await db.refresh(row)
 
-    return db_example
+    return row
 
 # READ ALL
 @router.get("/", response_model=List[schemas.Example], status_code=status.HTTP_200_OK)
@@ -36,7 +37,10 @@ async def read_all(
 
     result = await db.execute(select(models.Example).where(models.Example.user_id == user_id))
 
-    return result.scalars().all()
+    rows = result.scalars().all()
+    print(json.dumps([{"id": r.id, "title": r.title, "content": r.content} for r in rows], indent=2))
+
+    return rows
 
 # READ
 @router.get("/{id}", response_model=schemas.Example, status_code=status.HTTP_200_OK)
@@ -52,12 +56,14 @@ async def read(
         .where(models.Example.id == id)
         .where(models.Example.user_id == user_id)
     )
-    db_example = result.scalar_one_or_none()
+    row = result.scalar_one_or_none()
     
-    if not db_example:
+    if not row:
         raise HTTPException(status_code=404, detail="Example not found")
     
-    return db_example
+    print(json.dumps({"id": row.id, "title": row.title, "content": row.content}, indent=2))
+    
+    return row
 
 # UPDATE
 @router.put("/{id}", response_model=schemas.Example, status_code=status.HTTP_200_OK)
@@ -74,17 +80,19 @@ async def update(
         .where(models.Example.id == id)
         .where(models.Example.user_id == user_id)
     )
-    db_example = result.scalar_one_or_none()
-    if not db_example:
+    row = result.scalar_one_or_none()
+    if not row:
         raise HTTPException(status_code=404, detail="Example not found")
     
     for key, value in example.model_dump(exclude_unset=True).items():
-        setattr(db_example, key, value)
+        setattr(row, key, value)
 
     await db.commit()
-    await db.refresh(db_example)
+    await db.refresh(row)
 
-    return db_example
+    print(json.dumps({"id": row.id, "title": row.title, "content": row.content}, indent=2))
+
+    return row
 
 # DELETE
 @router.delete("/{id}", response_model=schemas.Example, status_code=status.HTTP_200_OK)
@@ -100,14 +108,14 @@ async def delete(
         .where(models.Example.id == id)
         .where(models.Example.user_id == user_id)
     )
-    db_example = result.scalar_one_or_none()
-    if not db_example:
+    row = result.scalar_one_or_none()
+    if not row:
         raise HTTPException(status_code=404, detail="Example not found")
     
-    await db.delete(db_example)
+    await db.delete(row)
     await db.commit()
 
-    return db_example
+    return row
 
 # DELETE ALL
 @router.delete("/", response_model=List[schemas.Example], status_code=status.HTTP_200_OK)
@@ -120,13 +128,13 @@ async def delete_all(
     result = await db.execute(
         select(models.Example).where(models.Example.user_id == user_id)
     )
-    db_examples = result.scalars().all()
+    rows = result.scalars().all()
 
-    if not db_examples:
+    if not rows:
         raise HTTPException(status_code=404, detail="No examples found")
 
-    for example in db_examples:
+    for example in rows:
         await db.delete(example)
     await db.commit()
 
-    return db_examples
+    return rows
