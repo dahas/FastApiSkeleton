@@ -4,7 +4,7 @@ A basic structure to create a RESTful-API with Python and Postgres.
 ## INSTALL
 
 ```
-$ python -m venv venv
+$ python3 -m venv venv
 $ source venv/bin/activate
 
 $ pip install --upgrade pip
@@ -20,7 +20,7 @@ $ pip install -r requirements.txt
         ```
         DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/db_name
         ```
-    - Replace user, pass, db_name accordingly.
+    - Replace user, pass, db_name correspondingly.
 
 - Initialize database and create the default user:  
     Run the following script and set your credentials. Username and password are only required once. Make sure you type them correctly and keep them in mind.
@@ -86,10 +86,10 @@ $ pip freeze > requirements.txt
 
 ## AUTHENTICATION
 How you implement user authentication is up to you. A common approach is using JWT.  
-See `get_current_user` in `app/utils` for an example of handling authentication.
+See `get_current_user` in `app/core/utils` for an example of handling authentication.
 
 ## LANGUAGE SUPPORT
-You can enable multilingual support in the API. To do this, **copy** one of the language files from the locales folder, **rename** the class to match the desired ISO country code, and **translate** the properties. 
+You can enable multilingual support in the API. To do this, **copy** one of the language files from the `app/locales` folder, **rename** the class to match the desired ISO country code, and **translate** the properties. 
 
 You can then use the new language class in your routers as follows:
 

@@ -3,16 +3,16 @@ from fastapi import APIRouter, Depends, HTTPException, Path, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
-from app import database, models
-from app.api.v1 import schemas
-from app.utils import get_current_user
+from app.core import database, models
+from app.api.v1.example import schema
+from app.core.utils import get_current_user
 
 router = APIRouter(prefix="/example", tags=["example"])
 
 # CREATE
-@router.post("/", response_model=schemas.Example, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=schema.Example, status_code=status.HTTP_201_CREATED)
 async def create(
-    article: schemas.ExampleCreate, 
+    article: schema.ExampleCreate, 
     db: AsyncSession = Depends(database.get_db),
     current_user: models.User = Depends(get_current_user)
 ):
@@ -28,7 +28,7 @@ async def create(
     return row
 
 # READ ALL
-@router.get("/", response_model=List[schemas.Example], status_code=status.HTTP_200_OK)
+@router.get("/", response_model=List[schema.Example], status_code=status.HTTP_200_OK)
 async def read_all(
     db: AsyncSession = Depends(database.get_db),
     current_user: models.User = Depends(get_current_user)
@@ -43,7 +43,7 @@ async def read_all(
     return rows
 
 # READ
-@router.get("/{id}", response_model=schemas.Example, status_code=status.HTTP_200_OK)
+@router.get("/{id}", response_model=schema.Example, status_code=status.HTTP_200_OK)
 async def read(
     id: int = Path(...), 
     db: AsyncSession = Depends(database.get_db),
@@ -66,10 +66,10 @@ async def read(
     return row
 
 # UPDATE
-@router.put("/{id}", response_model=schemas.Example, status_code=status.HTTP_200_OK)
+@router.put("/{id}", response_model=schema.Example, status_code=status.HTTP_200_OK)
 async def update(
     id: int = Path(...), 
-    example: schemas.ExampleUpdate = None,
+    example: schema.ExampleUpdate = None,
     db: AsyncSession = Depends(database.get_db),
     current_user: models.User = Depends(get_current_user)
 ):
@@ -95,7 +95,7 @@ async def update(
     return row
 
 # DELETE
-@router.delete("/{id}", response_model=schemas.Example, status_code=status.HTTP_200_OK)
+@router.delete("/{id}", response_model=schema.Example, status_code=status.HTTP_200_OK)
 async def delete(
     id: int = Path(...), 
     db: AsyncSession = Depends(database.get_db),
@@ -118,7 +118,7 @@ async def delete(
     return row
 
 # DELETE ALL
-@router.delete("/", response_model=List[schemas.Example], status_code=status.HTTP_200_OK)
+@router.delete("/", response_model=List[schema.Example], status_code=status.HTTP_200_OK)
 async def delete_all(
     db: AsyncSession = Depends(database.get_db),
     current_user: models.User = Depends(get_current_user)

@@ -1,8 +1,8 @@
 # Create utility functions here.
 
 from fastapi import Depends, HTTPException, status
-from app.models import User
-from app.database import get_db
+from app.core.models import User
+from app.core.database import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from app.locales.de import LangDe

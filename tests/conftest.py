@@ -3,10 +3,10 @@ from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import inspect
-from app.database import Base, get_db
+from app.core.database import Base, get_db
 from app.main import app
 from asgi_lifespan import LifespanManager
-from app.models import User
+from app.core.models import User
 
 # --------------------------
 # In-Memory SQLite URL
